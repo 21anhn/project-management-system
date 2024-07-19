@@ -12,6 +12,7 @@ import java.util.List;
 @Table(name = "issue")
 @Data
 public class Issue {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -29,6 +30,7 @@ public class Issue {
 
     @JsonIgnore
     @ManyToOne
+    @JoinColumn(name = "projectId")
     private Project project;
 
     @OneToMany(mappedBy = "issue", cascade = CascadeType.ALL, orphanRemoval = true)
