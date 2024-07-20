@@ -26,5 +26,4 @@ public class Comment {
 
     @ManyToOne
     private Issue issue;
-
 }
