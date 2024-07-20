@@ -14,18 +14,18 @@ public class JwtProvider {
 
     public static String generateToken(Authentication authentication) {
 
-        String jwt = Jwts.builder().setIssuedAt(new Date())
+        //System.out.println(jwt);
+        return Jwts.builder().setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime() + 86400000))
                 .claim("email", authentication.getName())
                 .signWith(key)
                 .compact();
-        System.out.println(jwt);
-        return jwt;
         //Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
     }
 
     public static String getEmailFromToken(String jwt) {
-        Claims claims = Jwts.parser().setSigningKey(key).build().parseClaimsJws(jwt).getBody();
-        return String.valueOf(claims.get("email"));
+        jwt = jwt.substring(7);
+        Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt).getBody();
+        return claims.get("email", String.class);
     }
 }

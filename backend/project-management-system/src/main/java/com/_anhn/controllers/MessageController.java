@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-@Repository
+@RestController
 @RequestMapping("/api/messages")
 public class MessageController {
 
@@ -40,7 +40,7 @@ public class MessageController {
 
     @GetMapping("/chat/{projectId}")
     public ResponseEntity<?> getChatByProjectId(@PathVariable Long projectId) throws Exception {
-        return ResponseEntity.ok(projectService.getChatByProjectId(projectId));
+        return ResponseEntity.ok(messageService.getMessageByProjectId(projectId));
     }
 
 }

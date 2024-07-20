@@ -9,6 +9,8 @@ import com._anhn.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -44,6 +46,7 @@ public class CommentServiceImpl implements CommentService {
         comment.setIssue(issueObj);
         comment.setUser(userObj);
         comment.setContent(content);
+        comment.setCreatedDateTime(LocalDateTime.now());
         Comment savedComment = commentRepository.save(comment);
         issue.get().getComments().add(savedComment);
         return savedComment;

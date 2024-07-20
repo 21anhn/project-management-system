@@ -39,6 +39,7 @@ public class ProjectServiceImpl implements ProjectService {
         createdProject.setCategory(project.getCategory());
         createdProject.setDescription(project.getDescription());
         createdProject.getTeam().add(user);
+        createdProject.setOwner(user);
 
         Project savedProject = projectRepository.save(createdProject);
 
@@ -62,7 +63,7 @@ public class ProjectServiceImpl implements ProjectService {
             projects = projects.stream().filter(p -> p.getTags().contains(tag)).collect(Collectors.toList());
         }
 
-        return null;
+        return projects;
     }
 
     @Override
@@ -121,8 +122,6 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<Project> searchProjects(String keyword, User user) throws Exception {
-        String partialName = "%" + keyword + "%";
-
-        return projectRepository.findByNameContainingAndTeamContains(partialName, user);
+        return projectRepository.findByNameContainingAndTeamContains(keyword, user);
     }
 }

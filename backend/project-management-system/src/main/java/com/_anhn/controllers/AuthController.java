@@ -5,6 +5,7 @@ import com._anhn.models.User;
 import com._anhn.request.LoginRequest;
 import com._anhn.response.AuthResponse;
 import com._anhn.services.CustomUserDetailsImpl;
+import com._anhn.services.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +24,13 @@ public class AuthController {
     @Autowired
     private CustomUserDetailsImpl customUserDetails;
 
+    @Autowired
+    private SubscriptionService subscriptionService;
+
     @PostMapping("/signup")
     public ResponseEntity<?> createUserHandler(@RequestBody User user) throws Exception {
         User isUserExist = customUserDetails.createUser(user);
+        subscriptionService.createSubscription(isUserExist); //Create free subscription to user
         Authentication auth = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
         SecurityContextHolder.getContext().setAuthentication(auth);
 
@@ -45,7 +50,7 @@ public class AuthController {
 
         String jwt = JwtProvider.generateToken(auth);
         AuthResponse authResponse = new AuthResponse();
-        authResponse.setMessage("Sign up success!");
+        authResponse.setMessage("Sign in success!");
         authResponse.setJwt(jwt);
 
         return new ResponseEntity<>(authResponse, HttpStatus.OK);

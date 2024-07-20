@@ -3,6 +3,7 @@ package com._anhn.services;
 import com._anhn.config.JwtProvider;
 import com._anhn.models.User;
 import com._anhn.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -10,6 +11,7 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
 
+    @Autowired
     private UserRepository userRepository;
 
     @Override
