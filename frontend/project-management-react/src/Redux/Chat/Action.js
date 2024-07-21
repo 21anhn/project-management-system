@@ -1,4 +1,4 @@
-import exp from "constants";
+import api from "@/config/api";
 import * as actionTypes from "./ActionType";
 
 export const sendMessage = (messageData) => {
@@ -10,6 +10,7 @@ export const sendMessage = (messageData) => {
         type: actionTypes.SEND_MESSAGE_SUCCESS,
         message: response.data,
       });
+      console.log("ms", response.data)
     } catch (error) {
       console.log(error);
       dispatch({

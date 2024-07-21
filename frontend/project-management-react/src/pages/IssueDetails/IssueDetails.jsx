@@ -17,13 +17,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchIssueById, updateIssueStatus } from "@/Redux/Issue/Action";
 
 import { store } from "@/Redux/Store";
+import { fetchComments } from "@/Redux/Comment/Action";
 
 const IssueDetails = () => {
   const { issue } = useSelector((store) => store);
   const { projectId, issueId } = useParams();
   const dispatch = useDispatch();
+  const {comment} = useSelector(store => store)
   useEffect(() => {
     dispatch(fetchIssueById(issueId));
+    dispatch(fetchComments(issueId));
   }, [issueId]);
   const handleUpdateIssueStatus = (status) => {
     dispatch(updateIssueStatus({ id: issueId, status }));
@@ -60,8 +63,8 @@ const IssueDetails = () => {
                 <TabsContent value="comments">
                   <CreateCommentForm issueId={issueId} />
                   <div className="mt-8 space-y-6">
-                    {[1, 1, 1].map((item) => (
-                      <CommentCard key={item} />
+                    {comment.comments.map((item) => (
+                      <CommentCard item={item} key={item} />
                     ))}
                   </div>
                 </TabsContent>
