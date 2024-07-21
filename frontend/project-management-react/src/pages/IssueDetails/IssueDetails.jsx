@@ -26,7 +26,7 @@ const IssueDetails = () => {
     dispatch(fetchIssueById(issueId));
   }, [issueId]);
   const handleUpdateIssueStatus = (status) => {
-    dispatch(updateIssueStatus({id: issueId, status}))
+    dispatch(updateIssueStatus({ id: issueId, status }));
     console.log(status);
   };
 
@@ -92,12 +92,16 @@ const IssueDetails = () => {
               <div className="space-y-7">
                 <div className="flex gap-10 items-center">
                   <p className="w-[7rem]">Assignee</p>
-                  <div className="flex items-center gap-3">
-                    <Avatar className="h-8 w-8 text-xs">
-                      <AvatarFallback>A</AvatarFallback>
-                    </Avatar>
-                    <p>Code with me</p>
-                  </div>
+                  {issue.issueDetails?.assignee.fullName ? (
+                    <div className="flex items-center gap-3">
+                      <Avatar className="h-8 w-8 text-xs">
+                        <AvatarFallback>{issue.issueDetails?.assignee.fullName[0]}</AvatarFallback>
+                      </Avatar>
+                      <p>{issue.issueDetails?.assignee.fullName}</p>
+                    </div>
+                  ) : (
+                    <p>Unassigned</p>
+                  )}
                 </div>
                 <div className="flex gap-10 items-center">
                   <p className="w-[7rem]">Labels</p>

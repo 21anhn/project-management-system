@@ -69,7 +69,7 @@ export const assignedUserToIssue = ({ issueId, userId }) => {
       console.log("assignee issue", response.data);
       dispatch({
         type: actionTypes.ASSIGNED_ISSUE_TO_USER_SUCCESS,
-        issues: response.data,
+        issue: response.data,
       });
     } catch (error) {
       dispatch({

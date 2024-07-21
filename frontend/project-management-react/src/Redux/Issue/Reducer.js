@@ -43,7 +43,7 @@ const issueReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         issues: state.issues.map((item) =>
-          issue.id === action.issue.id ? action.issue : issue
+          item.id === action.issue.id ? action.issue : item
         ),
       };
     case actionTypes.DELETE_ISSUE_SUCCESS:
