@@ -44,7 +44,7 @@ export const fetchChatMessages = (chatId) => {
   return async (dispatch) => {
     dispatch({ type: actionTypes.FETCH_MESSAGES_REQUEST });
     try {
-      const response = await api.get(`/api/messages/chat/${chatId}}`);
+      const response = await api.get(`/api/messages/chat/${chatId}`);
       dispatch({
         type: actionTypes.FETCH_CHAT_MESSAGES_SUCCESS,
         chatId,

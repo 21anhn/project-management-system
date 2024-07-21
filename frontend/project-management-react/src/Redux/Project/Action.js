@@ -88,13 +88,13 @@ export const createProjects = (projectData) => async (dispatch) => {
     }
   };
 
-  export const acceptInvatation = ({invitationToken, navigate}) => async (dispatch) => {
+  export const acceptInvatation = ({token, navigate}) => async (dispatch) => {
     dispatch({ type: ACCEPT_INVITATION_PROJECT_REQUEST });
     try {
       const { data } = await api.get("/api/projects/accept_invitation", {params: {
-        token: invitationToken
+        token
       }});
-      navigate('/project' + data.projectId);
+      navigate('/project/' + data.projectId);
       console.log(" accept project ", data);
       dispatch({ type: ACCEPT_INVITATION_PROJECT_SUCCESS, payload: data});
     } catch (error) {

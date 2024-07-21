@@ -9,3 +9,15 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+
+  mail:
+      host: smtp.gmail.com
+      port: 587
+      username: --enter your email to test send email
+      password: --enter your email password to test send email
+      properties:
+        mail:
+          smtp:
+            auth: true
+            starttls:
+              enable: true

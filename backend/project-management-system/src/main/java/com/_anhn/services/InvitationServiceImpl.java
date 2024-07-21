@@ -1,6 +1,7 @@
 package com._anhn.services;
 
 import com._anhn.models.Invitation;
+import com._anhn.models.User;
 import com._anhn.repositories.InvitationRepository;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,12 @@ public class InvitationServiceImpl implements InvitationService {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private ProjectService projectService;
+
+    @Autowired
+    private UserService userService;
 
     @Override
     public void sendInvitation(String email, Long projectId) throws MessagingException {
@@ -38,6 +45,14 @@ public class InvitationServiceImpl implements InvitationService {
         if (invitation == null) {
             throw new Exception("Invalid invitation token!");
         }
+
+        User user = userService.findUserByEmail(invitation.getEmail());
+
+        if (user == null) {
+            throw new Exception("User not found!");
+        }
+
+        projectService.addUserToProject(invitation.getProjectId(), user.getId());
 
         return invitation;
     }

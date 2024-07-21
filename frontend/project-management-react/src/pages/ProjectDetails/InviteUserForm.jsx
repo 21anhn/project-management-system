@@ -1,19 +1,38 @@
+import { inviteToProject } from "@/Redux/Project/Action";
 import { Button } from "@/components/ui/button";
 import { DialogClose } from "@/components/ui/dialog";
-import { Form, FormField, FormItem, FormControl, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormControl,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
 
 const InviteUserForm = () => {
+  const dispatch = useDispatch();
+  const { id } = useParams();
   const form = useForm({
     defaultValues: {
       email: "",
     },
   });
 
-  const onSubmit = (data) => console.log("Create project data ", data);
-  return ( 
+  const onSubmit = (data) => {
+    dispatch(
+      inviteToProject({
+        email: data.email,
+        projectId: id,
+      })
+    );
+    console.log("Create project data ", data);
+  };
+  return (
     <div>
       <Form {...form}>
         <form className="space-y-5" onSubmit={form.handleSubmit(onSubmit)}>
@@ -35,9 +54,9 @@ const InviteUserForm = () => {
             )}
           />
           <DialogClose>
-              <Button className="w-full mt-5" type="submit">
-                Invite
-              </Button>
+            <Button className="w-full mt-5" type="submit">
+              Invite
+            </Button>
           </DialogClose>
         </form>
       </Form>
