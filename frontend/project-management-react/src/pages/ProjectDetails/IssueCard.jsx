@@ -6,16 +6,23 @@ import { DotsVerticalIcon, PersonIcon } from '@radix-ui/react-icons'
 import React from 'react'
 import UserList from './UserList'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { deleteIssue } from '@/Redux/Issue/Action'
 
-const IssueCard = () => {
+const IssueCard = ({item, projectId}) => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+    const handleIssueDelete = () => {
+        
+        dispatch(deleteIssue(item.id));
+    }
   return (
     <div>
       <Card className='rounded-md py-1 pb-2'>
         <CardHeader className='py-0 pb-1'>
         <div className='flex justify-between items-center'>
-            <CardTitle className='cursor-pointer' onClick={() => navigate("/project/3/issue/10")}>
-                Create Navbar
+            <CardTitle className='cursor-pointer' onClick={() => navigate(`/project/${projectId}}/issue/${item.id}`)}>
+                {item.title}
             </CardTitle>
 
             <DropdownMenu>
@@ -35,7 +42,7 @@ const IssueCard = () => {
                     <DropdownMenuItem>
                         Edit
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleIssueDelete}>
                         Delete
                     </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -45,7 +52,7 @@ const IssueCard = () => {
 
         <CardContent className='py-0'>
             <div className='flex items-center justify-between'>
-                <p>FBP - {1}</p>
+                <p>{item.description}</p>
                 <DropdownMenu className='w-[30rem] border border-red-400'>
                     <DropdownMenuTrigger>
                         <Button 

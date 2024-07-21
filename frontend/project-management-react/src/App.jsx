@@ -13,16 +13,17 @@ import Auth from "./pages/Auth/Auth";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "./Redux/Auth/Action";
 import { store } from "./Redux/Store";
+import { fetchProjects } from "./Redux/Project/Action";
 
 function App() {
   const dispatch = useDispatch();
-  const { auth } = useSelector((store) => store);
+  const { auth } = useSelector(store => store);
 
   useEffect(() => {
     dispatch(getUser());
-  }, []);
+    dispatch(fetchProjects({}));
+  }, [auth.jwt]);
 
-  console.log(auth)
   return (
     <>
       {auth.user ? (

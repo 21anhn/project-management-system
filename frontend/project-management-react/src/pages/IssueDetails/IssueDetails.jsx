@@ -1,6 +1,6 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import CreateCommentForm from "./CreateCommentForm";
 import CommentCard from "./CommentCard";
@@ -13,10 +13,20 @@ import {
 } from "@/components/ui/select";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchIssueById, updateIssueStatus } from "@/Redux/Issue/Action";
+
+import { store } from "@/Redux/Store";
 
 const IssueDetails = () => {
+  const { issue } = useSelector((store) => store);
   const { projectId, issueId } = useParams();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchIssueById(issueId));
+  }, [issueId]);
   const handleUpdateIssueStatus = (status) => {
+    dispatch(updateIssueStatus({id: issueId, status}))
     console.log(status);
   };
 
@@ -26,13 +36,13 @@ const IssueDetails = () => {
         <ScrollArea className="h-[80vh] w-[60%]">
           <div>
             <h1 className="text-lg font-semibold text-gray-400">
-              Create navbar
+              {issue.issueDetails?.title}
             </h1>
 
             <div className="py-5">
               <h2 className="font-semibold text-gray-400">Description</h2>
               <p className="text-gray-400 text-sm mt-3">
-                Lorem ipsum dolor sit amet consectetur adipisicing elite.
+                {issue.issueDetails?.description}
               </p>
             </div>
 
@@ -79,42 +89,38 @@ const IssueDetails = () => {
             <p className="border-b py-3 px-5">Details</p>
 
             <div className="p-5">
-                <div className="space-y-7">
-                    <div className="flex gap-10 items-center">
-                        <p className="w-[7rem]">Assignee</p>
-                        <div className="flex items-center gap-3">
-                            <Avatar className='h-8 w-8 text-xs'>
-                                <AvatarFallback>
-                                    A
-                                </AvatarFallback>
-                            </Avatar>
-                            <p>Code with me</p>
-                        </div>
-                    </div>
-                    <div className="flex gap-10 items-center">
-                        <p className="w-[7rem]">Labels</p>
-                        <p>None</p>
-                    </div>
-                    <div className="flex gap-10 items-center">
-                        <p className="w-[7rem]">Status</p>
-                        <Badge>In Progress</Badge>
-                    </div>
-                    <div className="flex gap-10 items-center">
-                        <p className="w-[7rem]">Realese</p>
-                        <p>20-07-2024</p>
-                    </div>
-                    <div className="flex gap-10 items-center">
-                        <p className="w-[7rem]">Reporter</p>
-                        <div className="flex items-center gap-3">
-                            <Avatar className='h-8 w-8 text-xs'>
-                                <AvatarFallback>
-                                    A
-                                </AvatarFallback>
-                            </Avatar>
-                            <p>Anh</p>
-                        </div>
-                    </div>
+              <div className="space-y-7">
+                <div className="flex gap-10 items-center">
+                  <p className="w-[7rem]">Assignee</p>
+                  <div className="flex items-center gap-3">
+                    <Avatar className="h-8 w-8 text-xs">
+                      <AvatarFallback>A</AvatarFallback>
+                    </Avatar>
+                    <p>Code with me</p>
+                  </div>
                 </div>
+                <div className="flex gap-10 items-center">
+                  <p className="w-[7rem]">Labels</p>
+                  <p>None</p>
+                </div>
+                <div className="flex gap-10 items-center">
+                  <p className="w-[7rem]">Status</p>
+                  <Badge>{issue.issueDetails?.status}</Badge>
+                </div>
+                <div className="flex gap-10 items-center">
+                  <p className="w-[7rem]">Realese</p>
+                  <p>20-07-2024</p>
+                </div>
+                <div className="flex gap-10 items-center">
+                  <p className="w-[7rem]">Reporter</p>
+                  <div className="flex items-center gap-3">
+                    <Avatar className="h-8 w-8 text-xs">
+                      <AvatarFallback>A</AvatarFallback>
+                    </Avatar>
+                    <p>Anh</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

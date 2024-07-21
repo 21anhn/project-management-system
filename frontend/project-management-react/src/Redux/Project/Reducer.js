@@ -36,35 +36,35 @@ export const projectReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        projects: action.payload,
+        projects: action.projects,
         error: null,
       };
     case SEARCH_PROJECT_SUCCESS:
       return {
         ...state,
         loading: false,
-        searchProjects: action.payload,
+        searchProject: action.projects,
         error: null,
       };
     case CREATE_PROJECT_SUCCESS:
       return {
         ...state,
         loading: false,
-        searchProjects: [...state.projects, action.payload.project],
+        projects: [...state.projects, action.project],
         error: null,
       };
     case FETCH_PROJECT_BY_ID_SUCCESS:
       return {
         ...state,
         loading: false,
-        projectDetails: action.payload.project,
+        projectDetails: action.project,
         error: null,
       };
       case DELETE_PROJECT_SUCCESS:
         return {
           ...state,
           loading: false,
-          projects: state.projects.filter(p => p.id === action.projectId),
+          projects: state.projects.filter(p => p.id !== action.projectId),
           error: null,
         };
     default:

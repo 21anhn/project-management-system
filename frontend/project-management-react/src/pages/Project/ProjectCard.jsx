@@ -1,3 +1,4 @@
+import { deleteProjectById } from "@/Redux/Project/Action";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -9,23 +10,30 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { DotFilledIcon, DotsVerticalIcon } from "@radix-ui/react-icons";
 import React from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-const ProjectCard = () => {
-
-  const navigate = useNavigate()
-
+const ProjectCard = ({ item }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleDelete = () => {
+    dispatch(deleteProjectById({ projectId: item.id }));
+  };
+  
   return (
     <Card className="p-5 w-full lg:max-w-3xl">
       <div className="space-y-5">
         <div className="space-y-2">
           <div className="flex justify-between">
             <div className="flex items-center gap-5">
-              <h1 onClick={() => navigate("/project/3")}  className="cursor-pointer font-bold text-lg">
-                Create Ecommerce Project
+              <h1
+                onClick={() => navigate("/project/" + item.id)}
+                className="cursor-pointer font-bold text-lg"
+              >
+                {item.name}
               </h1>
               <DotFilledIcon />
-              <p className="text-sm text-gray-400">Fullstack</p>
+              <p className="text-sm text-gray-400">{item.category}</p>
             </div>
             <div>
               <DropdownMenu>
@@ -34,7 +42,9 @@ const ProjectCard = () => {
                     <DotsVerticalIcon />
                     <DropdownMenuContent>
                       <DropdownMenuItem>Update</DropdownMenuItem>
-                      <DropdownMenuItem>Delete</DropdownMenuItem>
+                      <DropdownMenuItem onClick={handleDelete}>
+                        Delete
+                      </DropdownMenuItem>
                     </DropdownMenuContent>
                   </Button>
                 </DropdownMenuTrigger>
@@ -42,18 +52,13 @@ const ProjectCard = () => {
             </div>
           </div>
 
-          <p className="text-gray-500 text-sm">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem,
-            est facilis inventore blanditiis doloribus aut laudantium numquam,
-            aliquid maxime, voluptas molestiae debitis magnam! Perferendis
-            temporibus, totam aspernatur deserunt earum veniam!
-          </p>
+          <p className="text-gray-500 text-sm">{item.description}</p>
         </div>
 
         <div className="flex flex-wrap gap-2 items-center">
-          {[1, 1, 1, 1].map((item) => (
-            <Badge key={item} variant="outline">
-              {"Frontend"}
+          {item.tags.map((tag) => (
+            <Badge key={tag} variant="outline">
+              {tag}
             </Badge>
           ))}
         </div>

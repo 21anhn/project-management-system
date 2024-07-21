@@ -1,3 +1,4 @@
+import { DELETE_COMMENT_SUCCESS } from "../Comment/ActionTypes";
 import * as actionTypes from "./ActionTypes";
 import api from "@/config/api";
 
@@ -77,4 +78,40 @@ export const assignedUserToIssue = ({ issueId, userId }) => {
       });
     }
   };
+};
+
+export const createIssue = (issueData) => {
+  return async (dispatch) => {
+    dispatch({ type: actionTypes.CREATE_ISSUE_REQUEST });
+    try {
+      const response = await api.post(
+        `/api/issues`, issueData
+      );
+      console.log("assignee issue", response.data);
+      dispatch({
+        type: actionTypes.CREATE_ISSUE_SUCCESS,
+        issue: response.data,
+      });
+      console.log("issue created", response.data)
+    } catch (error) {
+      dispatch({
+        type: actionTypes.CREATE_ISSUE_FAILURE,
+        issues: error.message,
+      });
+    }
+  };
+}
+
+export const deleteIssue= (issueId) => async (dispatch) => {
+  dispatch({ type: actionTypes.DELETE_ISSUE_REQUEST });
+  try {
+    const { data } = await api.delete("/api/issues/" + issueId);
+    console.log(" delete issue ", data);
+    dispatch({ type: actionTypes.DELETE_ISSUE_SUCCESS, issueId });
+  } catch (error) {
+    dispatch({
+      type: actionTypes.DELETE_ISSUE_FAILURE,
+      issues: error.message,
+    });
+  }
 };

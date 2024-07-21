@@ -1,3 +1,4 @@
+import { login } from "@/Redux/Auth/Action";
 import { Button } from "@/components/ui/button";
 import { DialogClose } from "@/components/ui/dialog";
 import {
@@ -10,8 +11,11 @@ import {
 import { Input } from "@/components/ui/input";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
+  const dispatch = useDispatch()
+
   const form = useForm({
     defaultValues: {
       email: "",
@@ -19,7 +23,10 @@ const Login = () => {
     },
   });
 
-  const onSubmit = (data) => console.log("Create project data ", data);
+  const onSubmit = (data) => {
+    dispatch(login(data));
+    console.log("login ", data)
+  };
 
   return (
     <div className="space-y-5">
