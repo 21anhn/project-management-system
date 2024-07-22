@@ -7,6 +7,7 @@
   - JWT
 - **Frontend (FE)**: 
   - ReactJS
+  - Redux
   - Vite
   - TailwindCSS
   - ShadcnUI
