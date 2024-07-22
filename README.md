@@ -11,6 +11,7 @@ A **Project Management System** is a comprehensive platform designed to streamli
 
 ### Frontend (FE)
 - ReactJS
+- Redux
 - Vite
 - TailwindCSS
 - ShadcnUI
